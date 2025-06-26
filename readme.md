@@ -169,9 +169,6 @@ The system tracks several key performance indicators:
 4. Add tests for new functionality
 5. Submit a pull request
 
-## 📝 License
-
-[Add your license information here]
 
 ## 📞 Support
 
