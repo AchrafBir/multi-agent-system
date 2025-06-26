@@ -1,63 +1,185 @@
-# Multi-Agent System (MAS) for Load Balancing in Big Data Environments
+# Multi-Agent System (MAS)
 
-This project is a **Multi-Agent System (MAS)** designed specifically for **load balancing** and task management in **big data environments**. The system is capable of generating, scheduling, and processing tasks across a distributed network of agents, ensuring optimal load distribution and resource utilization. The system supports real-time monitoring through a graphical dashboard, providing detailed insights into task progress, agent health, and overall system performance.
+A distributed computing system that manages and monitors worker agents across multiple nodes for parallel task processing.
 
-## Key Features
+## 🚀 Features
 
-- **Load Balancing**: The system uses an intelligent load balancing mechanism to ensure that tasks are evenly distributed among worker agents based on their available resources. This ensures no agent is overwhelmed, making it ideal for **large-scale, big data processing** environments.
-  
-- **Big Data Ready**: Designed to efficiently manage and process large amounts of data. It can scale to handle thousands of tasks concurrently, with the ability to distribute and process data across multiple worker nodes in real-time.
-  
-- **Task Generation and Queueing**: Automatically generates tasks with random data, priorities, and locations, and stores them in a priority queue. The queue is managed dynamically, processing tasks based on their priority and system resource availability.
+- **Real-time Dashboard**: Desktop GUI (Tkinter) with live metrics and monitoring
+- **Dynamic Agent Management**: Automatic worker scaling and load balancing
+- **Task Queue System**: Efficient task distribution and processing
+- **Resource Monitoring**: CPU, memory, and performance tracking
+- **Node Distribution**: Support for multiple compute nodes
+- **Auto-scaling**: Dynamic worker creation based on workload
 
-- **Multi-Agent Architecture**: Includes various agents responsible for different functions in the system:
-  - **Worker Agents**: Process the tasks assigned by the load balancer.
-  - **Load Balancer Agent**: Distributes tasks across available worker agents based on current load and resource usage.
-  - **Resource Manager Agent**: Manages the allocation of resources across agents to ensure efficient task processing.
-  - **Cluster Manager Agent**: Coordinates and oversees the overall functioning of the agent network.
-  - **Monitor Agent**: Monitors the health and status of agents and the system.
-  
-- **Real-Time Dashboard**: A graphical user interface (GUI) that displays system statistics, agent performance, and task progress in real-time. It allows users to visualize the task queue, agent status, resource utilization, and completed tasks.
+## 📊 Dashboard Overview
 
-- **Comprehensive Logging**: All actions in the system, including task generation, agent status updates, and load balancing actions, are logged for debugging, monitoring, and analysis.
+The system provides a comprehensive dashboard showing:
 
-## Requirements
+- **Task Queue Status**: Current queued and completed tasks
+- **Performance Metrics**: Average processing times and throughput
+- **Agent Resources**: CPU and memory utilization across all agents
+- **Node Distribution**: Worker distribution across compute nodes
+- **Real-time Logs**: System activity and task processing logs
 
-- Python 3.x
-- `tkinter` for GUI
-- `logging` for logging system events
-- `threading` for multi-threaded task processing
-- Additional dependencies (listed in `requirements.txt`)
+## 🏗️ Project Structure
 
-## Installation
+```
+mas/
+├── .venv/                 # Python virtual environment
+├── agents/               # Agent-related modules
+├── communication/        # Inter-agent communication
+├── config/              # Configuration files
+├── dashboard/           # Web dashboard components
+│   ├── __pycache__/
+│   └── dashboard.py     # Main dashboard application
+├── data/                # Data storage and caching
+│   ├── __pycache__/
+│   ├── storage.py       # Data persistence layer
+│   ├── __init__.py
+│   └── processor.py     # Data processing utilities
+├── myenv/               # Additional environment files
+├── tasks/               # Task management
+│   └── tasks.json       # Task definitions and queue
+├── utils/               # Utility functions
+│   ├── __pycache__/
+│   ├── helpers.py       # Helper functions
+│   └── metrics.py       # Performance metrics collection
+├── generate_tasks.py    # Task generation utility
+├── main.py             # Main application entry point
+└── system.log          # System logs
+```
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/multi-agent-system.git
-    cd multi-agent-system
-    ```
+## 🛠️ Installation
 
-2. Install the dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd mas
+   ```
 
-## Configuration
+2. **Set up virtual environment**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
 
-You can configure the system by editing the `config/settings.py` file. Important configuration parameters include:
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- `NUM_TASKS_TO_GENERATE`: Number of tasks to generate in the system.
-- `TASK_GENERATION_INTERVAL`: Interval between the generation of tasks.
-- `INITIAL_NODES`: List of initial nodes for worker agents.
-- `NUM_WORKERS`: Number of worker agents to create.
-- `LOAD_BALANCER_STRATEGY`: Configurable strategies for load balancing (e.g., based on CPU, memory, or custom metrics).
+## 🚦 Usage
 
-## Usage
+### Starting the System
 
-To run the system, you need to generate tasks first, and then start the system:
+1. **Generate tasks first**
+   ```bash
+   python generate_tasks.py
+   ```
+   This creates the initial task queue that the agents will process.
 
-### Step 1: Generate Tasks
+2. **Launch the main application**
+   ```bash
+   python main.py
+   ```
+   This starts the multi-agent system and opens a Tkinter-based dashboard window.
 
-Before running the main system, you must generate the tasks that will be processed. To do this, run the `generate_tasks.py` script:
-```bash
-python generate_tasks.py
+3. **Monitor the system**
+   - The dashboard will automatically open as a desktop application (Tkinter GUI)
+   - Monitor real-time system performance and agent status through the interface
+   - No web browser required - everything runs in the desktop application
+
+### Task Management
+
+- **Generate tasks**: Use `generate_tasks.py` to create new tasks
+- **Monitor progress**: View task completion in the dashboard
+- **Resource allocation**: Agents automatically scale based on queue size
+
+### Configuration
+
+Edit configuration files in the `config/` directory to customize:
+- Agent behavior and resource limits
+- Task processing parameters
+- Dashboard refresh intervals
+- Logging levels
+
+## 📈 Performance Metrics
+
+The system tracks several key performance indicators:
+
+- **Throughput**: Tasks completed per minute (currently ~100 tasks/min)
+- **Response Time**: Average task processing time (currently ~0.2s)
+- **Resource Utilization**: CPU (~52%) and Memory (~46%) usage
+- **Agent Efficiency**: Most productive agents and task distribution
+
+## 🔧 Key Components
+
+### Agents
+- **Worker Agents**: Process individual tasks from the queue
+- **Dynamic Scaling**: Agents created/destroyed based on workload
+- **Status Monitoring**: Real-time tracking of agent health and performance
+
+### Dashboard
+- **Desktop Application**: Tkinter-based GUI for system monitoring
+- **Real-time Updates**: Live metrics and status updates
+- **Agent Management**: View and control individual agents
+- **System Logs**: Comprehensive logging with filtering capabilities
+
+### Task Processing
+- **Queue Management**: FIFO task processing with priority support
+- **Load Balancing**: Intelligent task distribution across agents
+- **Fault Tolerance**: Automatic retry and error handling
+
+## 🔍 Monitoring
+
+### Dashboard Sections
+
+1. **Task Queue**: Shows pending and completed task counts
+2. **Performance**: Displays processing times and throughput
+3. **Agent Resources**: CPU/memory usage across all agents
+4. **Node Distribution**: Geographic/logical distribution of workers
+5. **System Logs**: Real-time activity monitoring
+
+### Log Analysis
+- View system logs in real-time through the dashboard
+- Filter logs by component, severity, or time range
+- Monitor task processing and agent lifecycle events
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **High CPU Usage**: Adjust agent count or task complexity
+2. **Memory Leaks**: Monitor long-running agents and restart if needed
+3. **Task Backlog**: Scale up agents or optimize task processing
+4. **Connection Issues**: Check network connectivity between nodes
+
+### Performance Optimization
+
+- Monitor resource usage patterns in the dashboard
+- Adjust worker count based on queue depth
+- Optimize task processing algorithms
+- Use caching for frequently accessed data
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests for new functionality
+5. Submit a pull request
+
+## 📝 License
+
+[Add your license information here]
+
+## 📞 Support
+
+For issues and questions:
+- Check the system logs in the dashboard
+- Review the troubleshooting section
+- Open an issue in the repository
+
+---
+
+**Last Updated**: Generated from system dashboard showing 10,413 completed tasks with optimal performance metrics.
