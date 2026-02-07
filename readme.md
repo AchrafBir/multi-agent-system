@@ -68,7 +68,6 @@ Task generator -> Task queue -> Agents -> Metrics/Logs -> Dashboard
   - agents run on other machines and connect to the controller through `communication/`
   - requires configuring controller host/port (or equivalent) in `config/`
 
-If your current codebase does not implement remote agents yet, keep the default single-node mode and treat multi-node as a roadmap item.
 
 ## Project structure
 
