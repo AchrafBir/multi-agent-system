@@ -180,3 +180,7 @@ For issues and questions:
 ---
 
 **Last Updated**: Generated from system dashboard showing 10,413 completed tasks with optimal performance metrics.
+
+## License
+
+This project is licensed under the MIT License. See `LICENSE`.
