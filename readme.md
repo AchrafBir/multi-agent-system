@@ -112,7 +112,7 @@ The system tracks several key performance indicators:
 - **Resource Utilization**: CPU (~52%) and Memory (~46%) usage
 - **Agent Efficiency**: Most productive agents and task distribution
 
-## 🔧 Key Components
+##  Key Components
 
 ### Agents
 - **Worker Agents**: Process individual tasks from the queue
