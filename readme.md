@@ -1,186 +1,232 @@
 # Multi-Agent System (MAS)
 
-A distributed computing system that manages and monitors worker agents across multiple nodes for parallel task processing.
+A task-processing system that coordinates worker agents and provides a desktop (Tkinter) dashboard for real-time monitoring of queue progress, agent health, and performance metrics.
 
-##  Features
+## Key features
 
-- **Real-time Dashboard**: Desktop GUI (Tkinter) with live metrics and monitoring
-- **Dynamic Agent Management**: Automatic worker scaling and load balancing
-- **Task Queue System**: Efficient task distribution and processing
-- **Resource Monitoring**: CPU, memory, and performance tracking
-- **Node Distribution**: Support for multiple compute nodes
-- **Auto-scaling**: Dynamic worker creation based on workload
+- Desktop real-time dashboard (Tkinter): live metrics, agent status, and logs
+- Dynamic agent management: spawn/stop workers based on workload (auto-scaling if enabled)
+- Task queue: generate, enqueue, distribute, and process tasks
+- Resource monitoring: CPU/memory sampling and throughput/latency tracking
+- Modular codebase: clear separation of agents, communication, tasks, and metrics
+- Optional multi-node operation: run agents on different machines if your communication layer is configured for remote connectivity
 
-##  Dashboard Overview
+## Quickstart
 
-The system provides a comprehensive dashboard showing:
+```bash
+git clone https://github.com/AchrafBir/multi-agent-system.git
+cd multi-agent-system
 
-- **Task Queue Status**: Current queued and completed tasks
-- **Performance Metrics**: Average processing times and throughput
-- **Agent Resources**: CPU and memory utilization across all agents
-- **Node Distribution**: Worker distribution across compute nodes
-- **Real-time Logs**: System activity and task processing logs
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-##  Project Structure
+pip install -r requirements.txt
 
-```
-mas/
-├── .venv/                 # Python virtual environment
-├── agents/               # Agent-related modules
-├── communication/        # Inter-agent communication
-├── config/              # Configuration files
-├── dashboard/           # Web dashboard components
-│   ├── __pycache__/
-│   └── dashboard.py     # Main dashboard application
-├── data/                # Data storage and caching
-│   ├── __pycache__/
-│   ├── storage.py       # Data persistence layer
-│   ├── __init__.py
-│   └── processor.py     # Data processing utilities
-├── myenv/               # Additional environment files
-├── tasks/               # Task management
-│   └── tasks.json       # Task definitions and queue
-├── utils/               # Utility functions
-│   ├── __pycache__/
-│   ├── helpers.py       # Helper functions
-│   └── metrics.py       # Performance metrics collection
-├── generate_tasks.py    # Task generation utility
-├── main.py             # Main application entry point
-└── system.log          # System logs
+python generate_tasks.py
+python main.py
 ```
 
-##  Installation
+Expected: a Tkinter window opens showing live queue, agents, metrics, and logs while tasks are being processed.
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd mas
-   ```
+## Architecture
 
-2. **Set up virtual environment**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
+High-level components:
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+- Controller (`main.py`)
+  - owns the queue lifecycle
+  - starts and supervises worker agents
+  - aggregates metrics and logs for the dashboard
 
-##  Usage
+- Agents (`agents/`)
+  - worker processes/threads that pull tasks from the queue
+  - report status and metrics
 
-### Starting the System
+- Communication (`communication/`)
+  - message passing between controller and agents
+  - can be local-only or remote-capable depending on implementation
 
-1. **Generate tasks first**
-   ```bash
-   python generate_tasks.py
-   ```
-   This creates the initial task queue that the agents will process.
+- Task system (`tasks/`)
+  - task definitions and queue persistence (for example JSON-backed queue)
 
-2. **Launch the main application**
-   ```bash
-   python main.py
-   ```
-   This starts the multi-agent system and opens a Tkinter-based dashboard window.
+- Metrics (`utils/metrics.py`)
+  - throughput, latency, and resource sampling
 
-3. **Monitor the system**
-   - The dashboard will automatically open as a desktop application (Tkinter GUI)
-   - Monitor real-time system performance and agent status through the interface
-   - No web browser required - everything runs in the desktop application
+- Dashboard (`dashboard/dashboard.py`)
+  - Tkinter UI displaying queue, agents, metrics, and logs
 
-### Task Management
+Data flow:
 
-- **Generate tasks**: Use `generate_tasks.py` to create new tasks
-- **Monitor progress**: View task completion in the dashboard
-- **Resource allocation**: Agents automatically scale based on queue size
+Task generator -> Task queue -> Agents -> Metrics/Logs -> Dashboard
 
-### Configuration
+## Deployment modes
 
-Edit configuration files in the `config/` directory to customize:
-- Agent behavior and resource limits
-- Task processing parameters
-- Dashboard refresh intervals
-- Logging levels
+- Single-node (default)
+  - controller and agents run on the same machine
 
-##  Performance Metrics
+- Multi-node (optional)
+  - controller runs on one machine
+  - agents run on other machines and connect to the controller through `communication/`
+  - requires configuring controller host/port (or equivalent) in `config/`
 
-The system tracks several key performance indicators:
+If your current codebase does not implement remote agents yet, keep the default single-node mode and treat multi-node as a roadmap item.
 
-- **Throughput**: Tasks completed per minute (currently ~100 tasks/min)
-- **Response Time**: Average task processing time (currently ~0.2s)
-- **Resource Utilization**: CPU (~52%) and Memory (~46%) usage
-- **Agent Efficiency**: Most productive agents and task distribution
+## Project structure
 
-##  Key Components
+```text
+agents/               Agent implementations (workers, lifecycle, status)
+communication/        Inter-agent/controller communication layer
+config/               Configuration files (constants, JSON/YAML, etc.)
+dashboard/            Tkinter dashboard UI (dashboard.py)
+data/                 Persistence/caching utilities (if used)
+tasks/                Task definitions and queue storage (e.g., tasks.json)
+utils/                Helpers and metrics collection
+generate_tasks.py     Task generation utility
+main.py               Entry point (controller + dashboard)
+requirements.txt      Dependencies
+LICENSE               License file
+```
 
-### Agents
-- **Worker Agents**: Process individual tasks from the queue
-- **Dynamic Scaling**: Agents created/destroyed based on workload
-- **Status Monitoring**: Real-time tracking of agent health and performance
+## Repository hygiene
+```gitignore
+.venv/
+myenv/
+__pycache__/
+*.pyc
+*.log
+logs/
+tasks/tasks.json
+*.sqlite
+.DS_Store
+```
+## Requirements
 
-### Dashboard
-- **Desktop Application**: Tkinter-based GUI for system monitoring
-- **Real-time Updates**: Live metrics and status updates
-- **Agent Management**: View and control individual agents
-- **System Logs**: Comprehensive logging with filtering capabilities
+- Python 3.10+
+- OS: Linux/Windows (tested on: add your OS here)
 
-### Task Processing
-- **Queue Management**: FIFO task processing with priority support
-- **Load Balancing**: Intelligent task distribution across agents
-- **Fault Tolerance**: Automatic retry and error handling
+Note (Linux): Tkinter may require an additional package from your distro (for example `python3-tk`).
 
-##  Monitoring
+## Installation
 
-### Dashboard Sections
+```bash
+git clone https://github.com/AchrafBir/multi-agent-system.git
+cd multi-agent-system
 
-1. **Task Queue**: Shows pending and completed task counts
-2. **Performance**: Displays processing times and throughput
-3. **Agent Resources**: CPU/memory usage across all agents
-4. **Node Distribution**: Geographic/logical distribution of workers
-5. **System Logs**: Real-time activity monitoring
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-### Log Analysis
-- View system logs in real-time through the dashboard
-- Filter logs by component, severity, or time range
-- Monitor task processing and agent lifecycle events
+pip install -r requirements.txt
+```
 
-##  Troubleshooting
+## Usage
 
-### Common Issues
+### 1) Generate tasks
 
-1. **High CPU Usage**: Adjust agent count or task complexity
-2. **Memory Leaks**: Monitor long-running agents and restart if needed
-3. **Task Backlog**: Scale up agents or optimize task processing
-4. **Connection Issues**: Check network connectivity between nodes
+```bash
+python generate_tasks.py
+```
 
-### Performance Optimization
+This creates or refreshes the task queue used by agents.
 
-- Monitor resource usage patterns in the dashboard
-- Adjust worker count based on queue depth
-- Optimize task processing algorithms
-- Use caching for frequently accessed data
+### 2) Start the system
 
-##  Contributing
+```bash
+python main.py
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
+This starts the controller, launches agents, and opens the Tkinter dashboard.
 
+### 3) Monitor via dashboard
 
-##  Support
+Typical dashboard panels:
 
-For issues and questions:
-- Check the system logs in the dashboard
-- Review the troubleshooting section
-- Open an issue in the repository
+- Task queue: queued/completed/failed counts
+- Performance: throughput and processing latency
+- Agent resources: CPU/memory utilization
+- Agent status: active/idle/busy/error
+- Logs: real-time activity and task lifecycle events
 
----
+## Configuration
 
-**Last Updated**: Generated from system dashboard showing 10,413 completed tasks with optimal performance metrics.
+Configuration is stored in `config/`. Document the actual keys used by your code.
+
+Common settings to expose:
+
+- Agent scaling
+  - `AGENT_MIN`
+  - `AGENT_MAX`
+  - `SCALE_UP_THRESHOLD`
+  - `SCALE_DOWN_THRESHOLD`
+
+- Queue
+  - `TASK_QUEUE_PATH`
+
+- Dashboard
+  - `DASHBOARD_REFRESH_MS`
+
+- Logging
+  - `LOG_LEVEL`
+  - `LOG_PATH`
+
+## Metrics
+
+Metrics typically tracked:
+
+- Throughput: tasks completed per unit time
+- Latency: average/median processing time per task
+- Resource utilization: CPU and memory per agent (sampled)
+- Errors: task failures, retries, agent restarts
+
+## Benchmarking
+
+Recommended procedure:
+
+```bash
+python generate_tasks.py
+python main.py
+```
+
+Report (once measured):
+
+- Hardware: CPU / RAM / OS
+- Number of agents
+- Task count and task type
+- Throughput and latency summary
+
+## Troubleshooting
+
+- Dashboard does not open
+  - Verify Tkinter is installed (Linux may require `python3-tk`)
+  - Check logs for UI initialization errors
+
+- Queue not progressing
+  - Ensure tasks were generated successfully
+  - Validate queue file format (JSON errors are common)
+  - Inspect dashboard logs for task parsing/processing errors
+
+- High CPU usage
+  - Reduce max agent count
+  - Increase dashboard refresh interval
+  - Reduce task complexity
+
+- Dependency issues
+  - Recreate venv and reinstall requirements:
+    - delete `.venv/`, recreate, then `pip install -r requirements.txt`
+
+## Roadmap
+
+- Durable queue backend (Redis or database)
+- True multi-node support with authentication and secure transport
+- Retry policy and dead-letter queue
+- CI: lint + tests + packaging
+
+## Contributing
+
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/name`
+3. Commit changes
+4. Add/update tests
+5. Open a pull request
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE`.
+MIT License. See `LICENSE`.
