@@ -2,7 +2,7 @@
 
 A distributed computing system that manages and monitors worker agents across multiple nodes for parallel task processing.
 
-## 🚀 Features
+##  Features
 
 - **Real-time Dashboard**: Desktop GUI (Tkinter) with live metrics and monitoring
 - **Dynamic Agent Management**: Automatic worker scaling and load balancing
@@ -11,7 +11,7 @@ A distributed computing system that manages and monitors worker agents across mu
 - **Node Distribution**: Support for multiple compute nodes
 - **Auto-scaling**: Dynamic worker creation based on workload
 
-## 📊 Dashboard Overview
+##  Dashboard Overview
 
 The system provides a comprehensive dashboard showing:
 
@@ -21,7 +21,7 @@ The system provides a comprehensive dashboard showing:
 - **Node Distribution**: Worker distribution across compute nodes
 - **Real-time Logs**: System activity and task processing logs
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 mas/
@@ -49,7 +49,7 @@ mas/
 └── system.log          # System logs
 ```
 
-## 🛠️ Installation
+##  Installation
 
 1. **Clone the repository**
    ```bash
@@ -68,7 +68,7 @@ mas/
    pip install -r requirements.txt
    ```
 
-## 🚦 Usage
+##  Usage
 
 ### Starting the System
 
@@ -103,7 +103,7 @@ Edit configuration files in the `config/` directory to customize:
 - Dashboard refresh intervals
 - Logging levels
 
-## 📈 Performance Metrics
+##  Performance Metrics
 
 The system tracks several key performance indicators:
 
@@ -130,7 +130,7 @@ The system tracks several key performance indicators:
 - **Load Balancing**: Intelligent task distribution across agents
 - **Fault Tolerance**: Automatic retry and error handling
 
-## 🔍 Monitoring
+##  Monitoring
 
 ### Dashboard Sections
 
@@ -145,7 +145,7 @@ The system tracks several key performance indicators:
 - Filter logs by component, severity, or time range
 - Monitor task processing and agent lifecycle events
 
-## 🚨 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -161,7 +161,7 @@ The system tracks several key performance indicators:
 - Optimize task processing algorithms
 - Use caching for frequently accessed data
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -170,7 +170,7 @@ The system tracks several key performance indicators:
 5. Submit a pull request
 
 
-## 📞 Support
+##  Support
 
 For issues and questions:
 - Check the system logs in the dashboard
